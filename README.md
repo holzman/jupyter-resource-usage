@@ -134,6 +134,25 @@ memory:
 
 ![Screenshot with CPU and memory](./doc/statusbar-cpu.png)
 
+### Disk Usage
+
+`jupyter-resource-usage` can also track disk usage and report a `disk_usage` value as part of the `/api/metrics/v1` response.
+
+**Note** that this is generally only useful if each user has a separate partition (e.g. Kubernetes PVCs).
+
+You can set the `track_disk_usage` trait to enable disk usage tracking (disabled by default):
+
+```python
+c = get_config()
+c.ResourceUseDisplay.track_disk_usage = True
+```
+
+As a command line argument:
+
+```bash
+jupyter notebook --ResourceUseDisplay.track_disk_usage=True
+```
+
 ### Disable Prometheus Metrics
 
 There is a [known bug](https://github.com/jupyter-server/jupyter-resource-usage/issues/123) with Prometheus metrics which
