@@ -15,6 +15,8 @@ import { IStatusBar } from '@jupyterlab/statusbar';
 import { ITranslator } from '@jupyterlab/translation';
 
 import { MemoryUsage } from './memoryUsage';
+import { DiskUsage } from './diskUsage';
+
 import { KernelWidgetTracker } from './tracker';
 
 namespace CommandIDs {
@@ -37,6 +39,28 @@ const memoryStatusPlugin: JupyterFrontEndPlugin<void> = {
     const item = new MemoryUsage(trans);
 
     statusBar.registerStatusItem(memoryStatusPlugin.id, {
+      item,
+      align: 'left',
+      rank: 2,
+      isActive: () => item.model.metricsAvailable,
+      activeStateChanged: item.model.stateChanged,
+    });
+  },
+};
+
+const diskStatusPlugin: JupyterFrontEndPlugin<void> = {
+  id: '@jupyter-server/resource-usage:disk-status-item',
+  autoStart: true,
+  requires: [IStatusBar, ITranslator],
+  activate: (
+    app: JupyterFrontEnd,
+    statusBar: IStatusBar,
+    translator: ITranslator
+  ) => {
+    const trans = translator.load('jupyter-resource-usage');
+    const item = new DiskUsage(trans);
+
+    statusBar.registerStatusItem(diskStatusPlugin.id, {
       item,
       align: 'left',
       rank: 2,
@@ -102,6 +126,7 @@ const kernelUsagePlugin: JupyterFrontEndPlugin<void> = {
 
 const plugins: JupyterFrontEndPlugin<any>[] = [
   memoryStatusPlugin,
+  diskStatusPlugin,
   kernelUsagePlugin,
 ];
 export default plugins;

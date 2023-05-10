@@ -37,6 +37,11 @@ class ResourceUseDisplay(Configurable):
     Holds server-side configuration for jupyter-resource-usage
     """
 
+    system_disk_metrics = List(
+        trait=PSUtilMetric(),
+        default_value=[{"name": "disk_usage", "attribute": "disk_used"}],
+    )
+
     process_memory_metrics = List(
         trait=PSUtilMetric(),
         default_value=[{"name": "memory_info", "attribute": "rss"}],

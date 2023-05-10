@@ -2,6 +2,7 @@ import json
 from concurrent.futures import ThreadPoolExecutor
 from inspect import isawaitable
 
+import os
 import psutil
 import zmq.asyncio
 from jupyter_client.jsonutil import date_default
@@ -58,6 +59,11 @@ class ApiHandler(APIHandler):
             )
 
         metrics = {"rss": rss, "limits": limits}
+
+        disk_info = psutil.disk_usage(os.getenv("HOME"))
+        metrics["disk_used"] = disk_info.used
+        metrics["disk_total"] = disk_info.total
+
         if pss is not None:
             metrics["pss"] = pss
 
