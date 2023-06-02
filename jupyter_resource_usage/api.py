@@ -1,8 +1,8 @@
 import json
+import os
 from concurrent.futures import ThreadPoolExecutor
 from inspect import isawaitable
 
-import os
 import psutil
 import zmq.asyncio
 from jupyter_client.jsonutil import date_default
