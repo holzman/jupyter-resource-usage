@@ -94,6 +94,22 @@ As a command line argument:
 jupyter notebook --ResourceUseDisplay.track_cpu_percent=True
 ```
 
+### Disk Usage
+
+`jupyter-resource-usage` can track disk usage in the user's home directory.  To enable,
+set the `track_disk_usage` trait (disabled bt default):
+
+```python
+c = get_config()
+c.ResourceUseDisplay.track_disk_usage = True
+```
+
+As a command line argument:
+
+```bash
+jupyter notebook --ResourceUseDisplay.track_disk_usage=True
+```
+
 ### Disable Prometheus Metrics
 
 There is a [known bug](https://github.com/jupyter-server/jupyter-resource-usage/issues/123) with Prometheus metrics which
@@ -105,11 +121,11 @@ causes "lag"/pauses in the UI. To workaround this you can disable Prometheus met
 
 ## Resources Displayed
 
-Currently the server extension only reports memory usage and CPU usage. Other metrics will be added in the future as needed.
+Currently the server extension only reports memory, CPU, and disk usage. Other metrics will be added in the future as needed.
 
 Memory usage will show the PSS whenever possible (Linux only feature), and default to RSS otherwise.
 
-The notebook extension currently doesn't show CPU usage, only memory usage.
+The notebook extension currently doesn't show CPU usage.
 
 ## Contributing
 

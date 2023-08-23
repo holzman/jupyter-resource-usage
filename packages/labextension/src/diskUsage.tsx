@@ -35,24 +35,17 @@ export class DiskUsage extends VDomRenderer<DiskUsage.Model> {
    * Render the disk usage status item.
    */
   render(): JSX.Element {
-    if (!this.model) {
+    if ((!this.model) || (this.model.diskTotal === null)) {
       return <div></div>;
     }
     let text: string;
-    if (this.model.diskTotal === null) {
-      text = this._trans.__(
-        'Disk: %1 %2',
-        this.model.diskUsed.toFixed(Private.DECIMAL_PLACES),
-        this.model.units
-      );
-    } else {
-      text = this._trans.__(
-        'Disk Usage: %1 / %2 %3',
-        this.model.diskUsed.toFixed(Private.DECIMAL_PLACES),
-        this.model.diskTotal.toFixed(Private.DECIMAL_PLACES),
-        this.model.units
-      );
-    }
+    text = this._trans.__(
+      'Disk Usage: %1 / %2 %3',
+      this.model.diskUsed.toFixed(Private.DECIMAL_PLACES),
+      this.model.diskTotal.toFixed(Private.DECIMAL_PLACES),
+      this.model.units
+    );
+
     if (!this.model.usageWarning) {
       return (
         <TextItem title={this._trans.__('Current disk usage')} source={text} />
@@ -169,7 +162,7 @@ export namespace DiskUsage {
       const oldDiskTotal = this._diskTotal;
       const oldUnits = this._units;
 
-      if (value === null) {
+      if ( (value === null) || (!value.hasOwnProperty('disk_used')) ){
         this._metricsAvailable = false;
         this._diskUsed = 0;
         this._diskTotal = null;
